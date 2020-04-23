@@ -1,4 +1,4 @@
-# nat gw
+# NAT Gateway
 resource "aws_eip" "nat" {
   vpc = true
 }
@@ -22,7 +22,7 @@ resource "aws_route_table" "main-private" {
   }
 }
 
-# route associations private
+# Route associations for private subnet
 resource "aws_route_table_association" "main-private-1-a" {
   subnet_id      = aws_subnet.main-private-1.id
   route_table_id = aws_route_table.main-private.id
