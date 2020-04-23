@@ -1,2 +1,3 @@
 ## Terraform-lesson
-Learning modules on Terraform
+A series of Learning modules on Terraform
+
