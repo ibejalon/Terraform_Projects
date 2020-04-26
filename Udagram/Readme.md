@@ -2,7 +2,7 @@
 ---
 
 This project is about deploying an application(Apache Web Server) whose code (JavaScript and HTML) was stored in S3
-
+---
 To deploy application with necessary resources into its infrastructure for a fictitious Instagram clone “Udagram” where developers have pushed codes in an S3 bucket in AWS. There are two parts to the project: 
 
 1. Created an architectural diagram with lucid chart for visual aid to understand what resources to be created 
@@ -20,10 +20,10 @@ My task is to deploy the application by creating the following  infrastructure:
 
 - VPC: The private cloud environment needed to spin up resources for Udagram
 - Availability Zones: Two availability zones created for failover
-- Bastion Host : The host server
+- Bastion Host : which runs on EC2 instance in the public subnet provides access to the private subnet.It is set up with a security group to allow SSH and egress traffic
 - VPC NAT Gateway: lets private subnets route to the public
 - Internet gateway with corresponding routing table
 - Routing table association for public subnet
 - Subnets: Two public subnets and two private subnets
-- Servers : four servers stored in pairs in each private subnets
+- Servers : four servers stored in pairs in each private subnets from autoscaling group with minimum configuration of 4 instance
 - Security Group 
