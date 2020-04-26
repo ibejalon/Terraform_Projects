@@ -32,8 +32,8 @@ output "warning" {
 }
 
 
-resource "aws_iam_role" "s3-udagram-role" {
-  name               = "s3-udagram-role"
+resource "aws_iam_role" "s3-udagrambucket-role" {
+  name               = "s3-udagrambucket-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -52,14 +52,14 @@ EOF
 
 }
 
-resource "aws_iam_instance_profile" "s3-udagram-role-instanceprofile" {
-  name = "s3-udagram-role"
-  role = aws_iam_role.s3-udagram-role.name
+resource "aws_iam_instance_profile" "s3-udagrambucket-role-instanceprofile" {
+  name = "s3-udagrambucket-role"
+  role = aws_iam_role.s3-udagrambucket-role.name
 }
 
-resource "aws_iam_role_policy" "s3-udagram-role-policy" {
-  name = "s3-udagram-role-policy"
-  role = aws_iam_role.s3-udagram-role.id
+resource "aws_iam_role_policy" "s3-udagrambucket-role-policy" {
+  name = "s3-udagrambucket-role-policy"
+  role = aws_iam_role.s3-udagrambucket-role.id
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -70,8 +70,8 @@ resource "aws_iam_role_policy" "s3-udagram-role-policy" {
               "s3:*"
             ],
             "Resource": [
-              "arn:aws:s3:::udagram-asdf1234",
-              "arn:aws:s3:::udagram-asdf1234/*"
+              "arn:aws:s3:::udagrambucket-asdf1234",
+              "arn:aws:s3:::udagrambucket-asdf1234/*"
             ]
         }
     ]
