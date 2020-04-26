@@ -10,7 +10,7 @@ To deploy application with necessary resources into its infrastructure for a fic
 
  The architecture has Public Subnets (for 2-way internet), Private Subnet(one-way internet),Load balancer, networking elements(internet and NAT gateways), Servers, routing tables.
 
-### Requirements:
+### Project Requirements:
 
 Server specs : Created a Launch Configuration for the application servers in order to deploy four servers, two located in each private subnet. The launch configuration was used by auto-scaling group.
 
