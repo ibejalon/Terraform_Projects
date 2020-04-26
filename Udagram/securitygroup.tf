@@ -2,8 +2,8 @@
 resource "aws_security_group" "allow-ssh" {
   vpc_id      = aws_vpc.udagram.id
   name        = "allow"
-  description = "security group that allows ssh and all egress traffic"
-  engress {
+  description = "security group that allows ssh and all egres traffic"
+  egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

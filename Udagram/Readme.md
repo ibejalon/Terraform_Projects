@@ -2,7 +2,7 @@
 ---
 
 This project is about deploying an application(Apache Web Server) whose code (JavaScript and HTML) was stored in S3
----
+
 To deploy application with necessary resources into its infrastructure for a fictitious Instagram clone “Udagram” where developers have pushed codes in an S3 bucket in AWS. There are two parts to the project: 
 
 1. Created an architectural diagram with lucid chart for visual aid to understand what resources to be created 

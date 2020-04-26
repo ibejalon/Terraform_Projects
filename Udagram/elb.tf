@@ -1,7 +1,7 @@
 resource "aws_elb" "udagram-elb" {
   name            = "udagram-elb"
   subnets         = [aws_subnet.udagram-private-1.id, aws_subnet.udagram-private-2.id]
-  security_groups = [aws_security_group.elb-securitygroup.id]
+  security_groups = [aws_security_group.udagram-elb-securitygroup.id]
   listener {
     instance_port     = 80
     instance_protocol = "http"
