@@ -10,6 +10,10 @@ resource "aws_instance" "azeez-instance" {
 
   # the public SSH key
   key_name = aws_key_pair.mykeypair.key_name
+
+  tags = {
+    Name = "Azeez-instance"
+  }
 }
 
 resource "aws_ebs_volume" "ebs-volume-1" {
@@ -25,5 +29,10 @@ resource "aws_volume_attachment" "ebs-volume-1-attachment" {
   device_name = "/dev/xvdh"
   volume_id   = aws_ebs_volume.ebs-volume-1.id
   instance_id = aws_instance.azeez-instance.id
+}
+
+
+output "public_ip" {
+  value = aws_instance.azeez-instance.public_ip
 }
 

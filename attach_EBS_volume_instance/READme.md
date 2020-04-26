@@ -1,6 +1,6 @@
-# To Administer the EBS Volume
+# To Administer EBS Volume
 
-### To Login to remote instance with SSH
+### To Login to remote instance (ubuntu) that we are creating with SSH
 
 ssh -i  mykey -l ubuntu <instance_public_ip>
 
@@ -8,6 +8,7 @@ ssh -i  mykey -l ubuntu <instance_public_ip>
 ```
 $ sudo -s
 ```
+# gives disk information
 
 to see list of disk
 ```
@@ -18,8 +19,8 @@ fdisk -l
 ```
 
 ### Format the disk to ext4 file system
-***device_name = /dev/xvdh***
-
+ ***device_name = /dev/xvdh***
+## this mounts the hard drive into this directory
 ```
 mkfs.ext4 /dev/xvdh
 ```
@@ -44,7 +45,7 @@ Add the following lines
 
 mount and unmount data
 ```
-mount /dev/xvdh /data ext4 defaults 0 0
+mount
 unmount
 ```
 
