@@ -1,15 +1,16 @@
-**Infrastructure as Code Using Terraform***
+**Infrastructure as Code Using Terraform**
 ---
+
 This project is about deploying an application(Apache Web Server) whose code (JavaScript and HTML) was stored in S3
----
+
 To deploy application with necessary resources into its infrastructure for a fictitious Instagram clone “Udagram” where developers have pushed codes in an S3 bucket in AWS. There are two parts to the project: 
 
-1.Created an architectural diagram with lucid chart for visual aid to understand what resources to be created 
-2.Created a matching Terraform script
+1. Created an architectural diagram with lucid chart for visual aid to understand what resources to be created 
+2. Created a matching Terraform script
 
  The architecture has Public Subnets (for 2-way internet), Private Subnet(one-way internet),Load balancer, networking elements(internet and NAT gateways), Servers, routing tables.
 
-### Requirements:###
+### Requirements:
 
 Server specs : Created a Launch Configuration for the application servers in order to deploy four servers, two located in each private subnet. The launch configuration was used by auto-scaling group.
 
