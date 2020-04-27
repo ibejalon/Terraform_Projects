@@ -13,3 +13,8 @@ variable "PATH_TO_PUBLIC_KEY" {
 variable "RDS_PASSWORD" {
 }
 
+variable "AWS_ACCESS_KEY" {
+  }
+
+variable "AWS_SECRET_KEY" {
+  }
