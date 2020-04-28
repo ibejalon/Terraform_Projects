@@ -26,11 +26,11 @@ resource "aws_db_instance" "mariadb" {
   password                  = var.RDS_PASSWORD # password
   db_subnet_group_name      = aws_db_subnet_group.mariadb-subnet.name
   parameter_group_name      = aws_db_parameter_group.mariadb-parameters.name
-  multi_az                  = "true" 
+  multi_az                  = "false" 
   vpc_security_group_ids    = [aws_security_group.allow-mariadb.id]
   storage_type              = "gp2"
   backup_retention_period   = 30                                          
-  availability_zone         = aws_subnet.main-private-2.availability_zone # since this will the main AZ
+  availability_zone         = aws_subnet.main-private-1.availability_zone 
   final_snapshot_identifier = "mariadb-final-snapshot"                    # needed for when executing terraform destroy
   tags = {
     Name = "mariadb-instance"
