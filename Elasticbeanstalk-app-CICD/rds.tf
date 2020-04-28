@@ -18,7 +18,7 @@ resource "aws_db_parameter_group" "mariadb-parameters" {
 resource "aws_db_instance" "mariadb" {
   allocated_storage         = 100 # in GB
   engine                    = "mariadb"
-  engine_version            = "10.1.14"
+  engine_version            = "10.2.21"
   instance_class            = "db.t2.micro" # because I am using free tier
   identifier                = "mariadb"
   name                      = "mydatabase"     # database name
