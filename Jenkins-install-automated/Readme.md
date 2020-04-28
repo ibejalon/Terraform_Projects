@@ -1,8 +1,6 @@
-## Jenkins automation installation
+## Jenkins installation 
 
-There are different ways to install Software on Terraform such as through Ansible, Chef or puppet.
-
-In this case, I used Provisioner to do the following:
+ I have automated Jenkins automation by doing the following:
 
 * Declare AWS Key pair resources, keyname and Public key
 * Define resources in instance
