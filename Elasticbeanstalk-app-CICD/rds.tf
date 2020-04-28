@@ -6,7 +6,7 @@ resource "aws_db_subnet_group" "mariadb-subnet" {                   # the databa
 
 resource "aws_db_parameter_group" "mariadb-parameters" {
   name        = "mariadb-params"
-  family      = "mariadb10.1"
+  family      = "mariadb10.2"
   description = "MariaDB parameter group"
 
   parameter {

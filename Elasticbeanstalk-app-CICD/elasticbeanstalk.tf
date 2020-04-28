@@ -7,7 +7,7 @@ resource "aws_elastic_beanstalk_application" "hello-app" {
 resource "aws_elastic_beanstalk_environment" "hello-app-prod" {
   name                = "hello-app-prod"
   application         = aws_elastic_beanstalk_application.hello-app.name
-  solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.0 running PHP 7.0"
+  solution_stack_name = "64bit Amazon Linux 2018.03 v2.9.4 running PHP 7.3"
   setting {
     namespace = "aws:ec2:vpc"
     name      = "VPCId"
