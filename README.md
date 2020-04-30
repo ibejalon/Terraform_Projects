@@ -7,3 +7,6 @@ In this Terraform learning series, I learned to define Variables, Set up a sampl
 * Autoscaling
 * IAM
 
+Also in this repository are the following folders:
+* Udagram - IAC project
+* Project Structure - Implementing Best practice for IAC project
