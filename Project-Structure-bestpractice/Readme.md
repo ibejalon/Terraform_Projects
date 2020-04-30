@@ -1,4 +1,4 @@
-# Infrastructure as Code Project
+# Implementing Best Practice for Infrastructure as Code Project
 
 In a typical environment, testing is done in Dev environment before an application is deployed in prodution.To incorporate this best practice deployment approach, I created a dev and production environment with Modules for VPC, Bastion, and Jenkins Instance.
 
