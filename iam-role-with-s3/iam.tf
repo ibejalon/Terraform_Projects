@@ -36,8 +36,8 @@ resource "aws_iam_role_policy" "s3-ib-bucket-role-policy" {
               "s3:*"
             ],
             "Resource": [
-              "arn:aws:s3:::ib-bucket-c29df1",
-              "arn:aws:s3:::ib-bucket-c29df1/*"
+              "arn:aws:s3:::ib-bucket-asdf123",
+              "arn:aws:s3:::ib-bucket-asdf123/*"
             ]
         }
     ]
