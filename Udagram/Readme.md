@@ -4,7 +4,7 @@
 This project is about deploying an application(Apache Web Server) whose code (JavaScript and HTML) was stored in S3.
 
 Deployed an instagram clone called "Udagram" using Terraform to provision the necessary infrastructures. I also created the architectural diagram to understand how resources are connected in the image below.
-![](\Udagram\images\Udagram_architecture.jpeg)
+![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/Udagram_architecture.jpeg)
 
 
 The architecture has Public Subnets (for 2-way internet), Private Subnet(one-way internet),Load balancer, networking elements(internet and NAT gateways), Servers, routing tables.
