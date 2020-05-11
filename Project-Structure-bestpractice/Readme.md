@@ -9,7 +9,7 @@ Dev calls modules for bastion, jenkins-instance and VPC from the "dev.tf" file w
 * Region - defined in another variable
 * VPC_id - passed from the VPC module
 
-Once this is applied successfully, terraform apply can now applied to prod files.
+Once this is applied successfully, `terraform init` `terraform plan` and `terraform apply` can now be applied to prod files.
 
 ## Modules
 1. Bastion:  is the host that provide secure access to instances in the private and public subnets inside the virtual private cloud (VPC).The module contains scripts to define the instance (instance.tf), securitygroup.tf that allows ssh access to the instance, variable file that defines environment (Which is left blank because it will be passed either as Dev or Prod), AWS region, instance type, AMI
