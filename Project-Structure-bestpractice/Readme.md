@@ -2,7 +2,7 @@
 
 In a typical environment, testing is done in Dev environment before an application is deployed in prodution.To incorporate this best practice deployment approach, I created a dev and production environment with Modules for VPC, Bastion, and Jenkins Instance.
 
-## How it works
+### How it works
 Dev calls modules for bastion, jenkins-instance and VPC from the "dev.tf" file which contains the details of the defined module such as:
 * Source - directory of the module to be defined
 * ENV - the dev environment
@@ -11,7 +11,7 @@ Dev calls modules for bastion, jenkins-instance and VPC from the "dev.tf" file w
 
 Once this is applied successfully, terraform apply can now applied to prod files.
 
-## Modules
+### Modules
 1. Bastion:  is the host that provide secure access to instances in the private and public subnets inside the virtual private cloud (VPC).The module contains scripts to define the instance (instance.tf), securitygroup.tf that allows ssh access to the instance, variable file that defines environment (Which is left blank because it will be passed either as Dev or Prod), AWS region, instance type, AMI
 
 2. VPC: defines the VPC resource, environment(dev or prod) and availability zones which are passed in from the variable file(vars.tf), output file that displays IP address.(It is important to output the public subnet,private subnet and VPC so that Bastion and Jenkins Module will be able to use it because they referenced as VPC id)
