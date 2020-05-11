@@ -12,6 +12,6 @@ resource "aws_instance" "bastion" {
   key_name = aws_key_pair.mykeypair.key_name
 
   # role:
-  iam_instance_profile = aws_iam_instance_profile.s3-azbucket-role-instanceprofile.name
+  iam_instance_profile = aws_iam_instance_profile.s3-ib-bucket-role-instanceprofile.name
 }
 

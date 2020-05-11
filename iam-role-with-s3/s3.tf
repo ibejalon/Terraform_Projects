@@ -1,9 +1,9 @@
-resource "aws_s3_bucket" "az-bucket" {
-  bucket = "azbucket-c29df1"
+resource "aws_s3_bucket" "ib-bucket" {
+  bucket = "ib-bucket-asdf123"
   acl    = "private"
 
   tags = {
-    Name = "azbucket-c29df1"
+    Name = "ib-bucket-asdf123"
   }
 }
 

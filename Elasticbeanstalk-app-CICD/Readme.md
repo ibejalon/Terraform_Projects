@@ -1,4 +1,4 @@
-**CI/CD project using AWS  Elastic Beanstalk**
+# CI/CD project using AWS  Elastic Beanstalk #
 
 Goal: To deploy a PHP application on Elastic Beanstalk using AWS Codepipeline and Codebuild
 ---
