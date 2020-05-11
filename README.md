@@ -8,5 +8,5 @@ In this Terraform learning series, I learned to define Variables, Set up a sampl
 * IAM
 
 Also in this repository are the following folders:
-* Udagram - IAC project
+* Udagram (fictitious instagram clone)
 * Project Structure - Implementing Best practice for IAC project
