@@ -1,4 +1,4 @@
-**Udagram**
+**Udagram - Infrastructure as code Project**
 ---
 
 This project is about deploying an application(Apache Web Server) whose code (JavaScript and HTML) was stored in S3.
