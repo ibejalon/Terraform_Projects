@@ -29,4 +29,4 @@ My task is to deploy the application by creating the following  infrastructure:
 
 ## How is the Udagram repo structured?
 I will explain the function of each folder below.
-### folder `vpc.tf`
+### Folder `vpc.tf`
