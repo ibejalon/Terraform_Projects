@@ -1,7 +1,7 @@
 **Udagram - Infrastructure as code Project**
 ---
 
-This project is about deploying an application(Apache Web Server) whose code (JavaScript and HTML) was stored in S3.
+This project is about deploying an application(Apache Web Server).
 
 Deployed an instagram clone called "Udagram" using Terraform to provision the necessary infrastructures. I also created the architectural diagram to understand how resources are connected in the image below.
 ![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/Udagram_architecture.jpeg)
