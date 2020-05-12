@@ -33,10 +33,14 @@ I will explain the function of each folder below.
 ### Folder `vpc.tf`
 The first resource defined is Udagram VPC `resource "aws_vpc" "udagram"`.
 Within the VPC are the following resources:
-- Public subnet1 in US- East-2a availability zone ```resource "aws_subnet" "udagram-public-1"```, `availability_zone = "us-east-2a"`
-- Public subnet2 in US-East-2b availability zone ```resource "aws_subnet" "udagram-public-2"```, `availability_zone = "us-east-2b"`
-- Private subnet1 in US-east-2a `resource "aws_subnet" "udagram-private-1"`, `availability_zone = "us-east-2a"`
-- Private subnet2 in US-east-2b `resource "aws_subnet" "udagram-private-2"`, `availability_zone = "us-east-2a"`
+- Public subnet1 in US- East-2a availability zone
+ ```resource "aws_subnet" "udagram-public-1"```, `availability_zone = "us-east-2a"`
+- Public subnet2 in US-East-2b availability zone 
+```resource "aws_subnet" "udagram-public-2"```, `availability_zone = "us-east-2b"`
+- Private subnet1 in US-east-2a 
+`resource "aws_subnet" "udagram-private-1"`, `availability_zone = "us-east-2a"`
+- Private subnet2 in US-east-2b 
+`resource "aws_subnet" "udagram-private-2"`, `availability_zone = "us-east-2a"`
 - Internet gateway that references the VPC
 ```
 resource "aws_internet_gateway" "udagram-gw" {
