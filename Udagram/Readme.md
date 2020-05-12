@@ -29,4 +29,35 @@ My task is to deploy the application by creating the following  infrastructure:
 
 ## How is the Udagram repo structured?
 I will explain the function of each folder below.
+
 ### Folder `vpc.tf`
+The first resource defined is Udagram VPC `resource "aws_vpc" "udagram"`.
+Within the VPC are the following resources:
+- Public subnet1 in US- East-2a availability zone ```resource "aws_subnet" "udagram-public-1"```, `availability_zone = "us-east-2a"`
+- Public subnet2 in US-East-2b availability zone ```resource "aws_subnet" "udagram-public-2"```, `availability_zone = "us-east-2b"`
+- Private subnet1 in US-east-2a `resource "aws_subnet" "udagram-private-1"`, `availability_zone = "us-east-2a"`
+- Private subnet2 in US-east-2b `resource "aws_subnet" "udagram-private-2"`, `availability_zone = "us-east-2a"`
+- Internet gateway that references the VPC
+```
+resource "aws_internet_gateway" "udagram-gw" {
+  vpc_id = aws_vpc.udagram.id
+  ```
+  - Route tables associated with the internet gateway
+  - Route association is for the association between the route table and public subnet 1 and 2
+```
+resource "aws_route_table_association" "udagram-public-1-a" {
+  subnet_id      = aws_subnet.udagram-public-1.id
+  route_table_id = aws_route_table.udagram-public.id
+}
+
+resource "aws_route_table_association" "udagram-public-2-a" {
+  subnet_id      = aws_subnet.udagram-public-2.id
+  route_table_id = aws_route_table.udagram-public.id
+```
+To deploy the above resources in linux:
+1. Create an EC2 instance on AWS
+2. Use instance above to connect to Ubuntu
+3. Enter into the project directory `cd Terraformpractice`
+4. Pull the code from local repo to the linux envrionment `Git pull origin master`
+5. Initialize terraform `terraform init`
+6. Create resources `terrform apply`
