@@ -54,7 +54,7 @@ resource "aws_route_table_association" "udagram-public-2-a" {
   subnet_id      = aws_subnet.udagram-public-2.id
   route_table_id = aws_route_table.udagram-public.id
 ```
-To deploy the above resources in linux:
+### To deploy the above resources in linux:
 1. Create an EC2 instance on AWS
 2. Use instance above to connect to Ubuntu
 3. Enter into the project directory `cd Terraformpractice`
