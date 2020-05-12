@@ -80,7 +80,7 @@ resource "aws_route_table_association" "udagram-public-2-a" {
   route_table_id = aws_route_table.udagram-public.id
 ```
 ### File version.tf
-The version.tf file dictates the terraform version for this script. The infrastructure script works with terraform version 0.12 and above, earlier version may not work as intend.
+The version.tf file dictates the terraform version for this script. The infrastructure script supports terraform version 0.12 and above, earlier version may not work as intend.
 
 
 ### File `Compute.tf`
