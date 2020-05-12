@@ -36,7 +36,7 @@ Within the VPC are the following resources:
 - Public subnet1 in US- East-2a availability zone
  ```resource "aws_subnet" "udagram-public-1"```, `availability_zone = "us-east-2a"`
 - Public subnet2 in US-East-2b availability zone 
-```resource "aws_subnet" "udagram-public-2"```, `availability_zone = "us-east-2b"`
+_```resource "aws_subnet" "udagram-public-2"```, `availability_zone = "us-east-2b"_
 - Private subnet1 in US-east-2a 
 `resource "aws_subnet" "udagram-private-1"`, `availability_zone = "us-east-2a"`
 - Private subnet2 in US-east-2b 
