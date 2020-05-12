@@ -30,7 +30,7 @@ My task is to deploy the application by creating the following  infrastructure:
 ## How is the Udagram repo structured?
 I will explain the function of each folder below.
 
-### Folder `vpc.tf`
+### File `vpc.tf`
 The first resource defined is Udagram VPC `resource "aws_vpc" "udagram"`.
 Within the VPC are the following resources:
 - Public subnet1 in US- East-2a availability zone
@@ -66,7 +66,7 @@ resource "aws_route_table_association" "udagram-public-2-a" {
 5. Initialize terraform `terraform init`
 6. Create resources `terrform apply`
 
-### Folder `Compute.tf`
+### File `Compute.tf`
 Here, the bastion host, instance type and ami are defined. The bastion references the public1 subnet and it allows ssh of the secuity group.
 ```
 resource "aws_instance" "Bastion" {
@@ -75,22 +75,22 @@ resource "aws_instance" "Bastion" {
   subnet_id = aws_subnet.udagram-public-1.id
   vpc_security_group_ids = [aws_security_group.allow-ssh.id]
 ```
-### Folder `nat.tf`
+### File `nat.tf`
 
 
-### Folder `elb.tf`
+### File `elb.tf`
 
-### Folder `autoscaling.tf`
+### File `autoscaling.tf`
 
-### Folder `securitygroup.tf`
+### File `securitygroup.tf`
 
 
-### Folder `iam.tf`
+### File `iam.tf`
 
-### Folder `s3.tf`
+### File `s3.tf`
 
-### Folder `key.tf`
+### File `key.tf`
 
-### Folder `provider.tf`
+### File `provider.tf`
 
-### Folder `versions.tf`
+### File `versions.tf`
