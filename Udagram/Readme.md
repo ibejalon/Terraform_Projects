@@ -26,3 +26,7 @@ My task is to deploy the application by creating the following  infrastructure:
 - Subnets: Two public subnets and two private subnets
 - Servers : four servers stored in pairs in each private subnets from autoscaling group with minimum configuration of 4 instance
 - Security Group 
+
+## How is the Udagram repo structured?
+I will explain the function of each folder below.
+### folder `vpc.tf`
