@@ -93,12 +93,13 @@ resource "aws_instance" "Bastion" {
 ### File `vars.tf`
 This is the variable file where AWS access key, secret key, region, public key, and AMI are defined.
  
- *Note: the secret and access keys will be used as input to `terraform.tfvars` which is in `.gitignore` to prevent the keys from being pushed to this repo.So dont worry, my keys are save!*
+ *Note: the secret and access keys will be used as input to `terraform.tfvars` which is hidden in `.gitignore` to prevent the keys from being pushed to this repo.So dont worry, my keys are save!*
 
 ### File `nat.tf`
 This file provision five(5) resources that are needed to route outbound traffic from private subnets of the infrastructure through the public subnets to the internet gateway. The provisioned resources are:
 1. ElasticIP  `nat` which provision an EIP exernal IP a reserved public IP 
-```resource "aws_eip" "nat" {
+```
+resource "aws_eip" "nat" {
   vpc = true
 }
 ```
@@ -130,7 +131,7 @@ The other resources provisioned are route associations for the private subnets
 ### File `iam.tf`
 
 ### File `s3.tf`
-Here, storage resource is defined here known as udagram that has a private access.
+Here, storage resource is defined and has a private access because the application archive is stored here and it does not need to be accessed by the public. 
 ```
 resource "aws_s3_bucket" "udagram" {
   bucket = "udagram-asdf1234"
