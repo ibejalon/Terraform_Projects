@@ -67,20 +67,18 @@ resource "aws_internet_gateway" "udagram-gw" {
   
   ```
 ####  - Route tables associated with the internet gateway
-  - Route association is for the association between the route table for public subnet 1 and 2. This route table association maps the route table with the internet gateway for ingress and egress traffic.
+Route association is for the association between the route table for public subnet 1 and 2. This route table association maps the route table with the internet gateway for ingress and egress traffic.
 ```
 resource "aws_route_table_association" "udagram-public-1-a" {
   subnet_id      = aws_subnet.udagram-public-1.id
   route_table_id = aws_route_table.udagram-public.id
 }
-
-
 resource "aws_route_table_association" "udagram-public-2-a" {
   subnet_id      = aws_subnet.udagram-public-2.id
   route_table_id = aws_route_table.udagram-public.id
 ```
-### File version.tf
-The version.tf file dictates the terraform version for this script. The infrastructure script supports terraform version 0.12 and above, earlier version may not work as intend.
+### File `version.tf`
+The `version.tf` file dictates the terraform version for this script. The infrastructure script supports terraform version 0.12 and above, earlier version may not work as intend.
 
 
 ### File `Compute.tf`
@@ -92,12 +90,38 @@ resource "aws_instance" "Bastion" {
   subnet_id = aws_subnet.udagram-public-1.id
   vpc_security_group_ids = [aws_security_group.allow-ssh.id]
 ```
-### vars.tf
-This is the variable file  where AWS access key, secret key region, public key, and AMI are defined.
+### File `vars.tf`
+This is the variable file where AWS access key, secret key, region, public key, and AMI are defined.
  
  *Note: the secret and access keys will be used as input to `terraform.tfvars` which is in `.gitignore` to prevent the keys from being pushed to this repo.So dont worry, my keys are save!*
 
 ### File `nat.tf`
+This file provision five(5) resources that are needed to route outbound traffic from private subnets of the infrastructure through the public subnets to the internet gateway. The provisioned resources are:
+1. ElasticIP  `nat` which provision an EIP exernal IP a reserved public IP 
+```resource "aws_eip" "nat" {
+  vpc = true
+}
+```
+2. NAT gateway  `nat-gw`
+The network address translation gateway is needed to translate private IP addresses to publicly available IP addresses vice versa
+```
+resource "aws_nat_gateway" "nat-gw" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.udagram-public-1.id
+  depends_on    = [aws_internet_gateway.udagram-gw]
+}
+```
+3. Route table `udagram-private`
+This is used by NAT gateway. It forwards any unknown addresses(0.0.0.0/0) to an associated resources.
+```
+resource "aws_route_table" "udagram-private" {
+  vpc_id = aws_vpc.udagram.id
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat-gw.id
+  }
+  ```
+The other resources provisioned are route associations for the private subnets
 
 ### File `elb.tf`
 
