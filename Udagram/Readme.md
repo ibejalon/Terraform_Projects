@@ -20,8 +20,8 @@ Deployed an instagram clone called "Udagram" using Terraform to provision the ne
 9. Confirm resources on aws interface like the sample instances below
 ![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/instance_provisioned.JPG)
 
-10.Destroy resources once testing is done using `terraform destroy`
-![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_destroy)
+10. Destroy resources once testing is done using `terraform destroy`
+![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_destroy.JPG)
 
 ### Overview of the resources
 The architecture has Public Subnets (for 2-way internet), Private Subnet(one-way internet),Load balancer, networking elements(internet and NAT gateways), Servers, routing tables.
