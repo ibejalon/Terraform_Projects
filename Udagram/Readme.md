@@ -38,7 +38,7 @@ My task is to deploy the application by creating the following  infrastructure:
 - Security Group 
 
 ## How is the Udagram repo structured?
-I will explain the function of each folder below.
+I will explain the function of each folder (terraform file) .
 
 ### File `provider.tf`
 Here, I stated AWS as the cloud provider for this project, and the region is defined in `vars.tf`.
@@ -49,24 +49,52 @@ provider "aws" {
 ```
 
 ### File `vpc.tf`
-This is where Udagram VPC is defined `resource "aws_vpc" "udagram"`.
+This is where VPC for Udagram is defined 
+```
+resource "aws_vpc" "udagram"
+```
 Within the VPC are the following resources:
-- Public subnet1 in US- East-2a availability zone
- ```resource "aws_subnet" "udagram-public-1"```, `availability_zone = "us-east-2a"`
-- Public subnet2 in US-East-2b availability zone 
-```resource "aws_subnet" "udagram-public-2"```, `availability_zone = "us-east-2b"
-- Private subnet1 in US-east-2a 
-`resource "aws_subnet" "udagram-private-1"`, `availability_zone = "us-east-2a"`
-- Private subnet2 in US-east-2b 
-`resource "aws_subnet" "udagram-private-2"`, `availability_zone = "us-east-2a"`
-#### - Internet gateway for the the VPC
-The internet gateway is needed to connect the private cloud to the internet. The private cloud reffered is the Udagram VPC defined and all the resouces provisioned therein.
+1. Public subnet1 in US- East-2a availability zone
+ ```
+ resource "aws_subnet" "udagram-public-1" {
+  vpc_id                  = aws_vpc.udagram.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = "true"
+  availability_zone       = "us-east-2a"
+ ```
+2. Public subnet2 in US-East-2b availability zone 
+```
+resource "aws_subnet" "udagram-public-2" {
+  vpc_id                  = aws_vpc.udagram.id
+  cidr_block              = "10.0.2.0/24"
+  map_public_ip_on_launch = "true"
+  availability_zone       = "us-east-2b
+  ```
+3. Private subnet1 in US-east-2a 
+```
+resource "aws_subnet" "udagram-private-1" {
+  vpc_id                  = aws_vpc.udagram.id
+  cidr_block              = "10.0.4.0/24"
+  map_public_ip_on_launch = "false"
+  availability_zone       = "us-east-2a"
+  ```
+4. Private subnet2 in US-east-2b 
+```
+resource "aws_subnet" "udagram-private-2" {
+  vpc_id                  = aws_vpc.udagram.id
+  cidr_block              = "10.0.5.0/24"
+  map_public_ip_on_launch = "false"
+  availability_zone       = "us-east-2b"
+  ```
+
+5. Internet gateway for the the VPC
+The internet gateway is needed to connect the private cloud to the internet. The private cloud referred to is the Udagram VPC defined and all the resouces provisioned therein.
 ```
 resource "aws_internet_gateway" "udagram-gw" {
   vpc_id = aws_vpc.udagram.id
   
   ```
-####  - Route tables associated with the internet gateway
+6. Route tables associated with the internet gateway
 Route association is for the association between the route table for public subnet 1 and 2. This route table association maps the route table with the internet gateway for ingress and egress traffic.
 ```
 resource "aws_route_table_association" "udagram-public-1-a" {
@@ -77,9 +105,14 @@ resource "aws_route_table_association" "udagram-public-2-a" {
   subnet_id      = aws_subnet.udagram-public-2.id
   route_table_id = aws_route_table.udagram-public.id
 ```
+
 ### File `version.tf`
 The `version.tf` file dictates the terraform version for this script. The infrastructure script supports terraform version 0.12 and above, earlier version may not work as intend.
-
+```
+terraform {
+  required_version = ">= 0.12"
+}
+```
 
 ### File `Compute.tf`
 Here, the bastion host, instance type and ami are defined. The bastion references the public1 subnet and it allows ssh of the security group.
@@ -90,14 +123,24 @@ resource "aws_instance" "Bastion" {
   subnet_id = aws_subnet.udagram-public-1.id
   vpc_security_group_ids = [aws_security_group.allow-ssh.id]
 ```
+
 ### File `vars.tf`
 This is the variable file where AWS access key, secret key, region, public key, and AMI are defined.
- 
- *Note: the secret and access keys will be used as input to `terraform.tfvars` which is hidden in `.gitignore` to prevent the keys from being pushed to this repo.So dont worry, my keys are save!*
+```
+variable "AWS_ACCESS_KEY" {
+}
+variable "AWS_SECRET_KEY" {
+}
+variable "AWS_REGION" {
+  default = "us-east-2"
+}
+```
+ *Note: The secret and access keys will be used as input to `terraform.tfvars` which is hidden in `.gitignore` to prevent the keys from being pushed to this repo.So dont worry, my keys are save!*
 
 ### File `nat.tf`
 This file provision five(5) resources that are needed to route outbound traffic from private subnets of the infrastructure through the public subnets to the internet gateway. The provisioned resources are:
-1. ElasticIP  `nat` which provision an EIP exernal IP a reserved public IP 
+
+1. ElasticIP                    
 ```
 resource "aws_eip" "nat" {
   vpc = true
@@ -125,13 +168,60 @@ resource "aws_route_table" "udagram-private" {
 The other resources provisioned are route associations for the private subnets
 
 ### File `elb.tf`
+The elastic load balancer for the autoscaling group in the private subnets is provisioned with this script.
+```
+resource "aws_elb" "udagram-elb" {
+  name            = "udagram-elb"
+  subnets         = [aws_subnet.udagram-private-1.id, aws_subnet.udagram-private-2.id]
+  security_groups = [aws_security_group.udagram-elb-securitygroup.id]
+  ```
+The autoscaling group is the set of servers that provides webservices to the public.Without it, the Udagram will not be accessible.
+The elastic load balancer has a listener on port 80, health_check that runs every 2secs and timesout after 3secs if the health checks   fails. 
+
+There is also connection draining time out of 400 seconds which is the max time for the load balancer to keep connections alive before reporting the instance as de-registered.
+
+Cross zone loading balancing is also enabled for Elastic Load Balancers to ensure fault tolerance.That means, Udagram app must be up at all times even when one availabilty zone is down.
+```
+cross_zone_load_balancing   = true
+  connection_draining         = true
+  connection_draining_timeout = 400
+```
 
 ### File `autoscaling.tf`
+```
+resource "aws_launch_configuration" "sample-launchconfig" 
+```
+The resource "aws_launch_configuration" "sample-launchconfig" is  the lunch profile for the autoscaling group. The group is deployed in the private subnets of the infrastructure and is not accessible to the public.
+The autoscaling group is deployed across two availability zones for high availability and redundancy.
+```
+resource "aws_autoscaling_group" "sample-autoscaling" {
+  name                      = "sample-autoscaling"
+  vpc_zone_identifier       = [aws_subnet.udagram-private-1.id, aws_subnet.udagram-private-2.id]
+  launch_configuration      = aws_launch_configuration.sample-launchconfig.name
+  ```
+  
 ### File `securitygroup.tf`
+This a firewall script that dictates what connection is allowed to different resources within the VPC.
+
+- Security group for the bastion: `resource "aws_security_group" "allow-ssh"`
+The security group resource above is used to provide SSH connection (tcp port 22) to resources, in this case, the bastion host. with this security group applied to the bastion host, ssh connection from any host with the appropriate public key is allowed.
+
+- Secuity group for servers in the private subnet
+```
+resource "aws_security_group" "myserver"
+```
+This is attached to the servers in the autoscaling group, it allows egress connection to any destination( i.e for general updates) but limits connection to port 22 and port 80 (used for http delivery).
+- Security group for ELB
+```
+resource "aws_security_group" "udagram-elb-securitygroup" 
+```
+The above resource  attached to the elb (elastic load balancer), allows all egress (outbound) traffic but limits inboud traffic to port 80
+
 ### File `iam.tf`
+This is simply defining administrator as the IAM group and two admins as users who have access to the S3-udagrambucket.
 
 ### File `s3.tf`
-Here, storage resource is defined and has a private access because the application archive is stored here and it does not need to be accessed by the public. 
+Here, storage resource is defined and has a private access because the application archive is stored here and it does not need to be accessed by the public.  
 ```
 resource "aws_s3_bucket" "udagram" {
   bucket = "udagram-asdf1234"
