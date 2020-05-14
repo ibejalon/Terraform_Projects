@@ -15,6 +15,13 @@ Deployed an instagram clone called "Udagram" using Terraform to provision the ne
 6. Initialize terraform `terraform init`
 7. View the structure of the infrastructure to be deployed using `terraform plan`
 8. Create the resources using `terraform apply`
+![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_apply.JPG)
+
+9. Confirm resources on aws interface like the sample instances below
+![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/instance_provisioned.JPG)
+
+10. Destroy resources once testing is done using `terraform destroy`
+![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_destroy.JPG)
 
 ### Overview of the resources
 The architecture has Public Subnets (for 2-way internet), Private Subnet(one-way internet),Load balancer, networking elements(internet and NAT gateways), Servers, routing tables.
