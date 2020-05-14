@@ -6,13 +6,16 @@ This project is about deploying an application(Apache Web Server).
 Deployed an instagram clone called "Udagram" using Terraform to provision the necessary infrastructures. I also created the architectural diagram to understand how resources are connected in the image below.
 ![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/Udagram_architecture.jpeg)
 
-#### To deploy the above resources in linux:
-1. Create an EC2 instance on AWS if Terraform 0.12 version or higher is not installed on your PC
+#### To deploy the above resources:
+1. Create an Ubuntu EC2 instance on AWS which is then used to connect to linux where Terraform is downloaded using 
+`wget https://releases.hashicorp.com/terraform/0.12.25/terraform_0.12.25_linux_amd64.zip`
 2. Check Terraform version `Terraform --version`
-3. Configure AWS with access and secret keys `aws configure`
+3. Configure AWS with access and secret keys `aws configure` but make sure python-pip is already installed using 
+`sudo apt install python-pip`
 4. Clone repo using `git clone https://github.com/ibejalon/Terraformpractice.git`
 5. Enter into the project directory `cd Terraformpractice`
 6. Initialize terraform `terraform init`
+![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_init.JPG)
 7. View the structure of the infrastructure to be deployed using `terraform plan`
 8. Create the resources using `terraform apply`
 ![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_apply.JPG)
@@ -24,7 +27,7 @@ Deployed an instagram clone called "Udagram" using Terraform to provision the ne
 ![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_destroy.JPG)
 
 ### Overview of the resources
-The architecture has Public Subnets (for 2-way internet), Private Subnet(one-way internet),Load balancer, networking elements(internet and NAT gateways), Servers, routing tables.
+The architecture has Public Subnets (for 2-way internet), Private Subnet (one-way internet), Load balancer, networking elements(internet and NAT gateways), Servers, routing tables.
 
 ### Project Requirements:
 
@@ -41,11 +44,11 @@ My task is to deploy the application by creating the following  infrastructure:
 - Internet gateway with corresponding routing table
 - Routing table association for public subnet
 - Subnets: Two public subnets and two private subnets
-- Servers : four servers stored in pairs in each private subnets from autoscaling group with minimum configuration of 4 instance
-- Security Group 
+- Servers : four servers stored in pair in each private subnets from autoscaling group with minimum configuration of 4 instance
+- Security Group which helps to control inbound and outbound traffic to the instance
 
 ## How is the Udagram repo structured?
-I will explain the function of each folder (terraform file) .
+I will explain the function of each folder (.tf) .
 
 ### File `provider.tf`
 Here, I stated AWS as the cloud provider for this project, and the region is defined in `vars.tf`.
@@ -56,18 +59,18 @@ provider "aws" {
 ```
 
 ### File `vpc.tf`
-This is where VPC for Udagram is defined 
+This is where the VPC for Udagram is defined 
 ```
 resource "aws_vpc" "udagram"
 ```
 Within the VPC are the following resources:
-1. Public subnet1 in US- East-2a availability zone
+1. Public subnet1 in US- East-1a availability zone
  ```
  resource "aws_subnet" "udagram-public-1" {
   vpc_id                  = aws_vpc.udagram.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone       = "us-east-2a"
+  availability_zone       = "us-east-1a"
  ```
 2. Public subnet2 in US-East-2b availability zone 
 ```
@@ -75,26 +78,26 @@ resource "aws_subnet" "udagram-public-2" {
   vpc_id                  = aws_vpc.udagram.id
   cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone       = "us-east-2b
+  availability_zone       = "us-east-1b
   ```
-3. Private subnet1 in US-east-2a 
+3. Private subnet1 in US-east-1a 
 ```
 resource "aws_subnet" "udagram-private-1" {
   vpc_id                  = aws_vpc.udagram.id
   cidr_block              = "10.0.4.0/24"
   map_public_ip_on_launch = "false"
-  availability_zone       = "us-east-2a"
+  availability_zone       = "us-east-1a"
   ```
-4. Private subnet2 in US-east-2b 
+4. Private subnet2 in US-east-1b 
 ```
 resource "aws_subnet" "udagram-private-2" {
   vpc_id                  = aws_vpc.udagram.id
   cidr_block              = "10.0.5.0/24"
   map_public_ip_on_launch = "false"
-  availability_zone       = "us-east-2b"
+  availability_zone       = "us-east-1b"
   ```
 
-5. Internet gateway for the the VPC
+5. Internet gateway for the VPC
 The internet gateway is needed to connect the private cloud to the internet. The private cloud referred to is the Udagram VPC defined and all the resouces provisioned therein.
 ```
 resource "aws_internet_gateway" "udagram-gw" {
@@ -114,7 +117,7 @@ resource "aws_route_table_association" "udagram-public-2-a" {
 ```
 
 ### File `versions.tf`
-The `version.tf` file defines the terraform version 0.12 and above, earlier version may not work as intend.
+The `version.tf` file defines the terraform version to be used that is version 0.12 and above
 ```
 terraform {
   required_version = ">= 0.12"
@@ -142,7 +145,7 @@ variable "AWS_REGION" {
   default = "us-east-2"
 }
 ```
- *Note: The secret and access keys will be used as input to `terraform.tfvars` which is hidden in `.gitignore` to prevent the keys from being pushed to this repo.So dont worry, my keys are save!*
+ *Note: The secret and access keys will be placed in `terraform.tfvars` which is hidden in `.gitignore` to prevent the keys from being pushed to this repo.So dont worry, my keys are save!*
 
 ### File `nat.tf`
 This file provision five(5) resources that are needed to route outbound traffic from private subnets of the infrastructure through the public subnets to the internet gateway. The provisioned resources are:
@@ -154,7 +157,7 @@ resource "aws_eip" "nat" {
 }
 ```
 2. NAT gateway  `nat-gw`
-The network address translation gateway is needed to translate private IP addresses to publicly available IP addresses vice versa
+The network address translation gateway is needed to translate private IP addresses to publicly available IP addresses and vice versa
 ```
 resource "aws_nat_gateway" "nat-gw" {
   allocation_id = aws_eip.nat.id
@@ -198,7 +201,7 @@ cross_zone_load_balancing   = true
 ```
 resource "aws_launch_configuration" "sample-launchconfig" 
 ```
-The resource "aws_launch_configuration" "sample-launchconfig" is  the lunch profile for the autoscaling group. The group is deployed in the private subnets of the infrastructure and is not accessible to the public.
+The resource above is  the lunch profile for the autoscaling group. The group is deployed in the private subnets of the infrastructure and is not accessible to the public.
 The autoscaling group is deployed across two availability zones for high availability and redundancy.
 ```
 resource "aws_autoscaling_group" "sample-autoscaling" {
@@ -211,7 +214,8 @@ resource "aws_autoscaling_group" "sample-autoscaling" {
 This a firewall script that dictates what connection is allowed to different resources within the VPC.
 
 - Security group for the bastion: `resource "aws_security_group" "allow-ssh"`
-The security group resource above is used to provide SSH connection (tcp port 22) to resources, in this case, the bastion host. with this security group applied to the bastion host, ssh connection from any host with the appropriate public key is allowed.
+
+The security group resource above is used to provide SSH connection (tcp port 22) to resources, in this case, the bastion host. With this security group applied to the bastion host, ssh connection from any host with the appropriate public key is allowed.
 
 - Secuity group for servers in the private subnet
 ```
@@ -246,6 +250,6 @@ resource "aws_key_pair" "mykeypair" {
   public_key = file(var.PATH_TO_PUBLIC_KEY)
 }
 ```
- *Note: The key pair is stored in `.gitgnore` so it won't be publicly available in this repo*
+ *Note: The key pair is stored in `.gitgnore` so it is not available in this repo*
 
 
