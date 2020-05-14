@@ -15,7 +15,7 @@ Deployed an instagram clone called "Udagram" using Terraform to provision the ne
 4. Clone repo using `git clone https://github.com/ibejalon/Terraformpractice.git`
 5. Enter into the project directory `cd Terraformpractice`
 6. Initialize terraform `terraform init`
-![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_init.JPG)
+![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform%20_init.JPG)
 7. View the structure of the infrastructure to be deployed using `terraform plan`
 8. Create the resources using `terraform apply`
 ![](https://github.com/ibejalon/Terraformpractice/blob/master/Udagram/images/terraform_apply.JPG)
